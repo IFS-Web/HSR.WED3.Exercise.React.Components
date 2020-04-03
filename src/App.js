@@ -10,24 +10,45 @@ function AppLink({ to, text }) {
   );
 }
 
-const Logo = ({ image }) => <img src={image} className="App-logo" alt="logo" />;
+const Logo = ({ image, circulationTime }) => (
+  <img
+    style={{
+      animationDuration: `${circulationTime}s`
+    }}
+    src={image}
+    className="App-logo"
+    alt="logo"
+  />
+);
 
-class Content extends React.Component {
+class Header extends React.Component {
+  state = {
+    circulationTime: 10
+  };
+
+  goFaster = () => {
+    this.setState(state => ({ circulationTime: state.circulationTime * 0.9 }));
+  };
+
+  goSlower = () => {
+    this.setState(state => ({ circulationTime: state.circulationTime * 1.1 }));
+  };
+
   render() {
-    return <p> {this.props.children}</p>;
+    return (
+      <header className="App-header">
+        <Logo circulationTime={this.state.circulationTime} image={logo} />
+        <p>
+          Edit <code>src/App.js</code> and save to reload.
+        </p>
+        <div>
+          <button onClick={this.goFaster}>Faster!</button>
+          <button onClick={this.goSlower}>Slower...</button>
+        </div>
+        <AppLink to="https://reactjs.org" text="Learn React" />
+      </header>
+    );
   }
-}
-
-function Header() {
-  return (
-    <header className="App-header">
-      <Logo image={logo} />
-      <Content>
-        Edit <code>src/App.js</code> and save to reload.
-      </Content>
-      <AppLink to="https://reactjs.org" text="Learn React" />
-    </header>
-  );
 }
 
 function App() {
